@@ -1,0 +1,152 @@
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+@import '../pebbles/includes/lib';
+@import '../pebbles/components/highlight';
+@import '../pebbles/components/newsletter';
+@import '../hubs/sections';
+@import '../hubs/buttons';
+@import '../hubs/masthead';
+
+.principle {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: $width-max-content;
+    padding: $mobile-content-padding;
+    padding-left: 2em;
+}
+
+.principle-number {
+    color: #999;
+    display: inline-block;
+    margin-left: -2.2em;
+    text-align: right;
+    width: 2em;
+    text-decoration: none;
+
+    &:visited {
+        color: #999;
+    }
+}
+
+.principle-head h3 {
+    @include font-size-level2;
+    font-weight: normal;
+}
+
+.principle-more {
+    @include open-sans;
+    @include font-size-small;
+    margin-top: $mobile-content-padding;
+}
+
+@media #{$mq-tablet} {
+    .principle {
+        padding: 0 $tablet-content-padding $tablet-content-padding $tablet-content-padding;
+    }
+}
+
+@media #{$mq-desktop} {
+    .principle {
+        padding: 0 $desktop-content-padding $desktop-content-padding $desktop-content-padding;
+    }
+}
+
+@supports (display: grid) {
+    @media #{$mq-tablet} {
+        .principle {
+            display: grid;
+            grid-template:
+                "text more"
+                "link more"
+                "link more";
+            grid-template-columns: 2fr 1fr;
+            grid-column-gap: 60px;
+        }
+
+        .principle-head {
+            grid-area: text;
+        }
+
+        .principle-more {
+            grid-area: more;
+            margin-top: 0;
+        }
+
+        .principle-foot {
+            grid-area: link;
+        }
+    }
+
+    @media #{mq-desktop} {
+        .principle {
+            grid-column-gap: 85px;
+        }
+    }
+}
+
+.principle-more {
+    ul {
+        margin-bottom: 0;
+    }
+
+    li {
+        margin-bottom: 0.5em;
+    }
+
+    img {
+        display: block;
+    }
+
+    blockquote {
+        p {
+            margin-bottom: 0.25em;
+        }
+
+        &:before {
+            @include font-size-level4;
+            display: block;
+            float: left;
+            margin: 0 0 0 -0.8em;
+            line-height: 1;
+            font-family: Candara, "Trebuchet MS", sans-serif;
+            font-weight: bold;
+            content: "“";
+        }
+    }
+}
+
+.videos {
+    a {
+        display: block;
+        position: relative;
+        padding-top: 50px;
+        min-height: 18px;
+    }
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 68px;
+        width: 120px;
+        border: 1px solid #000;
+        background-color: #000;
+    }
+    span {
+        position: relative;
+        display: block;
+        background-color: #fff;
+        margin-left: 20px;
+        padding-left: 5px;
+    }
+}
+
+.share {
+    margin-bottom: 0;
+}
+
+.manifesto-details {
+    @include font-size-level3;
+    @include trailing-double-caret;
+}

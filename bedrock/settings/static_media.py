@@ -556,6 +556,13 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css/manifesto-bundle.css',
     },
+    'manifesto': {
+        'source_filenames': (
+            'css/mozorg/manifesto.scss',
+            'css/base/mozilla-modal.less',
+        ),
+        'output_filename': 'css/manifesto-bundle.css',
+    },
     'mission': {
         'source_filenames': (
             'css/base/mozilla-video-poster.less',
