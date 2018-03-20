@@ -1,0 +1,270 @@
+{# This Source Code Form is subject to the terms of the Mozilla Public
+ # License, v. 2.0. If a copy of the MPL was not distributed with this
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/. -#}
+
+{% extends "base-pebbles.html" %}
+
+{% add_lang_files "mozorg/home/index-quantum" %}
+
+{% block gtm_page_id %}data-gtm-page-id="Homepage"{% endblock %}
+
+{% block page_title %}{{ _('Internet for people, not profit') }}{% endblock %}
+
+{%- block page_title_suffix -%}
+  {% if LANG == 'en-GB' %}
+    — Mozilla (UK)
+  {% else %}
+    — Mozilla
+  {% endif %}
+{%- endblock -%}
+
+{% block page_desc %}
+  {{ _('Did you know? Mozilla — the maker of Firefox — fights to keep the Internet a global public resource, open and accessible to all.') }}
+{% endblock %}
+
+{# "noindex" pages should not have the canonical or hreflang tags: bug 1442331 #}
+{% block canonical_urls %}<meta name="robots" content="noindex,follow">{% endblock %}
+
+{% block body_id %}home{% endblock %}
+
+{% block extra_meta %}
+<!-- validates bing webmaster tools -->
+<meta name="msvalidate.01" content="B7B177115A634927D608514DA17B2574">
+<!-- YouTube Verification -->
+<meta name="google-site-verification" content="U9a6gH32vLIykvntaDToj-ytYhlZ1AfAgVEKstixQIE">
+{% endblock %}
+
+{% block page_css %}
+  {% stylesheet 'home-2018' %}
+{% endblock %}
+
+{% block site_header %}
+  {% if LANG.startswith('en-') %}
+    {% include 'includes/global-nav.html' %}
+  {% else %}
+    {% with is_home = True %}
+      {% set logo_src = static('img/pebbles/moz-wordmark-dark-reverse.svg') %}
+      {% include 'mozorg/home/includes/nav.html' %}
+    {% endwith %}
+  {% endif %}
+{% endblock %}
+
+{% macro card_block(class_name, tag, title, desc, image_url, link_url, small_cta, meta) -%}
+<section class="card {% if class_name %}{{ class_name}}{% endif %}">
+  <a class="card-block-link" href="{{ link_url }}">
+    <img class="card-image" src="{{ static(image_url) }}" alt="">
+    <div class="card-content">
+      {% if tag %}
+      <h3 class="card-tag">{{ tag }}</h3>
+      {% endif %}
+      <h4 class="card-title">{{ title }}</h4>
+      {% if desc %}
+      <p class="card-desc">{{ desc }}</p>
+      {% endif %}
+      {% if small_cta %}
+      <p class="card-small-cta">{{ small_cta }}</p>
+      {% endif %}
+      {% if meta %}
+      <p class="card-meta">{{ meta }}</p>
+      {% endif %}
+    </div>
+  </a>
+</section>
+{%- endmacro %}
+
+{% block content %}
+<main>
+  <div class="content">
+    <div class="intro">
+      <section class="download-firefox-primary-cta">
+        <div class="card-content">
+          <h2 class="card-logo">{{ _('Firefox') }}</h2>
+          <h3 class="card-title">{{ _('Fast for good.') }}</h3>
+          <p class="card-desc">{{ _('2x the speed. Built-in privacy protection. Powered by Mozilla. There’s a better way to browse.') }}</p>
+          {{ download_firefox(dom_id='download-intro', download_location='primary cta') }}
+        </div>
+      </section>
+
+      <div class="three-cards-hero">
+        {{ card_block(class_name='card-hero',
+                      tag=_('Firefox'),
+                      title=_('The browser made for people, not profit'),
+                      desc=_('So we don’t have organic heirloom tomatoes inside our code. We *are* the only major browser backed by a non-profit, though, and that matters.'),
+                      image_url='img/home/2018/value-fresh.png',
+                      link_url='#')
+        }}
+        <div class="two-cards">
+          {{ card_block(class_name='card1',
+                        tag=_('Internet Health'),
+                        title=_('Algorisky'),
+                        desc=_('From Google search to Facebook news, algorithms shape our online exp…'),
+                        image_url='img/home/2018/irl-algorisky.png',
+                        link_url='https://irlpodcast.org/episode12/')
+          }}
+
+          {{ card_block(class_name='card2',
+                        tag=_('Internet Health'),
+                        title=_('Bot or Not'),
+                        desc=_('You’ve heard about how fast the new Firefox is. You’ve heard it’s made by…'),
+                        image_url='img/home/2018/irl-bot-or-not.png',
+                        link_url='https://irlpodcast.org/episode8/')
+          }}
+        </div>
+      </div>
+    </div>
+
+    <div class="three-cards">
+      {{ card_block(class_name='card-tile',
+                    title=_('More power to you.'),
+                    desc=_('We’re the not-for-profit behind products, technologies and programs that make the internet healthier for everyone.'),
+                    image_url='img/home/2018/splodge.png',
+                    small_cta=_('Learn more about us'),
+                    link_url='#')
+      }}
+
+      {{ card_block(tag=_('Privacy'),
+                    title=_('A Perspective: Firefox Quantum’s Tracking Protection Gives Users The Right To Be Curious'),
+                    desc=_('In the physical world, we don’t wear our ID on our foreheads. This is conven…'),
+                    image_url='img/home/2018/quantum-tracking-protection.png',
+                    link_url='https://blog.mozilla.org/blog/2018/02/14/a-perspective-firefox-quantum-tracking-protection-gives-users-the-right-to-be-curious/')
+      }}
+
+      {{ card_block(tag=_('Firefox'),
+                    title=_('Switch from Chrome to Firefox in just a Few Minutes '),
+                    desc=_('You’ve heard about how fast the new Firefox is. You’ve heard it’s made by ...'),
+                    image_url='img/home/2018/switch-to-firefox.png',
+                    link_url='https://blog.mozilla.org/firefox/switch-chrome-firefox-just-minutes/')
+      }}
+    </div>
+
+    <aside class="newsletter" id="newsletter-subscribe">
+      <div class="newsletter-title">
+          <h3>{{ _('Love the Web?') }}</h3>
+          <p>{{ _('Get the Mozilla newsletter and help us keep it open and free.') }}</p>
+      </div>
+      <div class="newsletter-form-content">
+      {% if LANG.startswith('en-') %}
+        {{ email_newsletter_form(newsletters='mozilla-foundation', include_title=False) }}
+      {% else %}
+        {{ email_newsletter_form() }}
+      {% endif %}
+      </div>
+    </aside>
+
+    <div class="two-cards">
+      {{ card_block(class_name='card-large',
+                    tag=_('Privacy'),
+                    title=_('What Facial Recognition Gets Wrong'),
+                    desc=_('Scientists teach computers facial recognition by giving them a dataset of thousands of faces to process…'),
+                    image_url='img/home/2018/irl-facial-recognition.png',
+                    link_url='#')
+      }}
+
+      {{ card_block(class_name='card-large',
+                    tag=_('Privacy'),
+                    title=_('Everything you need to know about privacy may just be on Reality TV'),
+                    desc=_('It’s no secret that popular culture, mass media and television influence all kinds of values and cultural norms. Nowhere ...'),
+                    image_url='img/home/2018/privacy-reality-tv.png',
+                    link_url='https://blog.mozilla.org/firefox/everything-need-know-privacy-may-just-reality-tv/')
+      }}
+    </div>
+
+    <div class="three-cards">
+      {{ card_block(tag=_('Net Neutrality'),
+                    title=_('Mozilla v FCC: Mozilla Re-files Suit Against FCC to Protect Net Neutrality'),
+                    desc=_('This morning, the Federal Communications Commission…'),
+                    image_url='img/home/2018/save-the-internet.png',
+                    link_url='https://blog.mozilla.org/blog/2018/02/22/mozilla-v-fcc-mozilla-re-files-suit-fcc-protect-net-neutrality/')
+      }}
+
+      {{ card_block(class_name='card-tile',
+                    title=_('Open source. <br>Open minds.'),
+                    desc=_('Mozilla creates powerful web tech for everyone.'),
+                    image_url='img/home/2018/splodge.png',
+                    small_cta=_('Explore Mozilla Technology'),
+                    link_url='#')
+      }}
+
+      {{ card_block(tag=_('Privacy'),
+                    title=_('An Open Letter to Justice Srikrishna About Data Privacy and Aadhaar'),
+                    desc=_('Dear Justice Srikrishna and the Honourable Members of the Ministry…'),
+                    image_url='img/home/2018/open-letter.png',
+                    link_url='https://blog.mozilla.org/blog/2018/02/09/open-letter-justice-srikrishna-data-privacy-aadhaar/')
+      }}
+    </div>
+  </div>
+
+  <aside class="pocket">
+    <div class="content">
+      <h2>{{ _('What we’re reading:') }}</h2>
+      <p class="tagline">{{ _('Like this feed? <a href="%(url)s">Subscribe</a> via Pocket')|format(url='https://getpocket.com/@MozillaHQ') }}</p>
+      <div class="four-cards">
+        {{ card_block(class_name='card-light',
+                      tag=_('nytimes.com'),
+                      title=_('Why We May Soon Be Living in Alexa’s World'),
+                      image_url='img/home/2018/pocket1.png',
+                      link_url='#',
+                      meta=_('2 hours ago'))
+        }}
+
+        {{ card_block(class_name='card-light',
+                      tag=_('dazeddigital.com'),
+                      title=_('How disabled people find a lifeline in the online world'),
+                      image_url='img/home/2018/pocket2.png',
+                      link_url='#',
+                      meta=_('18 hours ago'))
+        }}
+
+        {{ card_block(class_name='card-light',
+                      tag=_('theatlantic.com'),
+                      title=_('Airbnb and the Unintended Consquences of ‘Disr …'),
+                      image_url='img/home/2018/pocket3.png',
+                      link_url='#',
+                      meta=_('6 days ago'))
+        }}
+
+        {{ card_block(class_name='card-light',
+                      tag=_('nytimes.com'),
+                      title=_('Google Chrome Now Blocks Irksome Ads. That’s a Good Thing …'),
+                      image_url='img/home/2018/pocket4.png',
+                      link_url='#',
+                      meta=_('7 days ago'))
+        }}
+      </div>
+    </div>
+  </aside>
+
+  <div class="content">
+    <div class="three-cards">
+      {{ card_block(tag=_('Innovation'),
+                    title=_('Announcing “Project Things” – An open framework for connecting your devices to the web.'),
+                    desc=_('Last year, we said that Mozilla is working to create a framework of…'),
+                    image_url='img/home/2018/project-things.png',
+                    link_url='https://blog.mozilla.org/blog/2018/02/06/announcing-project-things-open-framework-connecting-devices-web/')
+      }}
+
+      {{ card_block(tag=_('Privacy'),
+                    title=_('Cloak of Invisibility'),
+                    desc=_('On the Internet no one knows you’re a dog, as the old joke goes. But does…'),
+                    image_url='img/home/2018/irl-invisibility.png',
+                    link_url='https://irlpodcast.org/episode11/')
+      }}
+
+      {{ card_block(tag=_('Internet of Things'),
+                    title=_('*privacy not included'),
+                    desc=_('A Guide to Make Shopping for Connected Gifts Safer, Easier…'),
+                    image_url='img/home/2018/privacy-not-included.png',
+                    link_url='https://advocacy.mozilla.org/en-US/privacynotincluded')
+      }}
+    </div>
+  </div>
+
+  <div class="download-firefox-secondary-cta">
+    <div class="content">
+      <h2>{{ _('Supporting a healthy internet is easy.') }}</h2>
+      <p class="tagline">{{ _('Get started by browsing with Firefox powered by Mozilla.') }}</p>
+      {{ download_firefox(dom_id='download-footer', download_location='secondary cta') }}
+    </div>
+  </div>
+</main>
+{% endblock %}

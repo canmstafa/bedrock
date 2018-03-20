@@ -529,6 +529,12 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css/home-bundle.css',
     },
+    'home-2018': {
+        'source_filenames': (
+            'css/mozorg/home/home-2018.scss',
+        ),
+        'output_filename': 'css/home-2018-bundle.css',
+    },
     'legal': {
         'source_filenames': (
             'css/legal/legal.less',
